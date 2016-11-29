@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="36bf3f4293f04de8b577f3690aaea011" Name="Diagram1" DisplayType="true" ZoomLevel="78">
+        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserClaims" Width="2.25" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserLogins" Width="2.25" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.Boekhouding" Width="3" PointX="10.25" PointY="5.875" />
+        <EntityTypeShape EntityType="Model.BTWType" Width="2.625" PointX="1.5" PointY="10.25" />
+        <EntityTypeShape EntityType="Model.Land" Width="2.625" PointX="1.375" PointY="8.375" />
+        <EntityTypeShape EntityType="Model.Relatie" Width="4" PointX="5.625" PointY="6.125" />
+        <EntityTypeShape EntityType="Model.RelatieType" Width="2.625" PointX="1.5" PointY="6.125" />
+        <AssociationConnector Association="Model.FK_tblRelatie_tblBoekhouding_id" />
+        <AssociationConnector Association="Model.FK_tblRelatie_tblBTW_id" />
+        <AssociationConnector Association="Model.FK_tblRelatie_tblLand_id" />
+        <AssociationConnector Association="Model.FK_tblRelatie_tblRelatieType_id" />
+        <EntityTypeShape EntityType="Model.Tenant" Width="1.5" PointX="9" PointY="3.25" />
+        <AssociationConnector Association="Model.FK_tblBoekhouding_bho_Tenant_id" />
+        <AssociationConnector Association="Model.FK_tblRelatie_tblTenant_id" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

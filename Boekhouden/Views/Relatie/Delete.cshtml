@@ -1,0 +1,168 @@
+﻿@model Boekhouden.Relatie
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Verwijderen</h2>
+
+<h3>Weet je zeker dat je deze gegevens wilt verwijderen?</h3>
+<div>
+    <h4>Relatie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contactpersoon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contactpersoon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aanhef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aanhef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adres1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adres1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adres2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adres2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Postcode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Postcode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandNaam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandNaam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plaats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plaats)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BTWNr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BTWNr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefoon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefoon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IBAN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kenmerk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kenmerk)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Boekhouding.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Boekhouding.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BTW.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BTW.Naam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Land.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Land.Naam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RelatieType.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RelatieType.Naam)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Verwijderen" class="btn btn-default" /> |
+            @Html.ActionLink("Terug naar overzicht", "Index")
+        </div>
+    }
+</div>

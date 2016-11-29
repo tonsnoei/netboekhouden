@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Boekhouden.Relatie>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Toevoegen", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naam1)
+        </th>       
+        <th>
+            @Html.DisplayNameFor(model => model.LandNaam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plaats)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BTWNr)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>       
+        <th>
+            Boekhouding
+        </th>        
+        <th>
+            Type
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naam1)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.LandNaam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plaats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BTWNr)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Boekhouding.Name)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.RelatieType.Naam)
+        </td>
+        <td>
+            @Html.ActionLink("Bewerken", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Verwijderen", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

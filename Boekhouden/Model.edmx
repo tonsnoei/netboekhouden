@@ -1,0 +1,763 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TenantId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="tblBoekhouding_bho">
+          <Key>
+            <PropertyRef Name="bhoId" />
+          </Key>
+          <Property Name="bhoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="bhoName" Type="nvarchar" MaxLength="128" />
+          <Property Name="bhoTenantId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBTW_btw">
+          <Key>
+            <PropertyRef Name="btwId" />
+          </Key>
+          <Property Name="btwId" Type="int" Nullable="false" />
+          <Property Name="btwNaam" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="btwPercentage" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="btwOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblLand_lan">
+          <Key>
+            <PropertyRef Name="lanId" />
+          </Key>
+          <Property Name="lanId" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="lanName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRelatie_rel">
+          <Key>
+            <PropertyRef Name="relId" />
+          </Key>
+          <Property Name="relId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rel_tenId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rel_bhoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rel_rtyId" Type="bigint" Nullable="false" />
+          <Property Name="relName1" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="relName2" Type="nvarchar" MaxLength="128" />
+          <Property Name="relContactpersoon" Type="nvarchar" MaxLength="128" />
+          <Property Name="relAanhef" Type="nvarchar" MaxLength="128" />
+          <Property Name="relAdres1" Type="nvarchar" MaxLength="128" />
+          <Property Name="relAdres2" Type="nvarchar" MaxLength="128" />
+          <Property Name="relPostcode" Type="nvarchar" MaxLength="128" />
+          <Property Name="rel_lanId" Type="nvarchar" MaxLength="2" />
+          <Property Name="relLandnaam" Type="nvarchar" MaxLength="128" />
+          <Property Name="relPlaats" Type="nvarchar" MaxLength="128" />
+          <Property Name="relBTWNr" Type="nvarchar" MaxLength="128" />
+          <Property Name="relTelefoon" Type="nvarchar" MaxLength="128" />
+          <Property Name="relEmail" Type="nvarchar" MaxLength="128" />
+          <Property Name="relIBAN" Type="nvarchar" MaxLength="128" />
+          <Property Name="rel_btwId" Type="int" />
+          <Property Name="relKenmerk" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="tblRelatieType_rty">
+          <Key>
+            <PropertyRef Name="rtyId" />
+          </Key>
+          <Property Name="rtyId" Type="bigint" Nullable="false" />
+          <Property Name="rtyNaam" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="rtyIsCrediteur" Type="bit" Nullable="false" />
+          <Property Name="rtyIsLeverancier" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTenant_ten">
+          <Key>
+            <PropertyRef Name="tenId" />
+          </Key>
+          <Property Name="tenId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="tenCreationDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblBoekhouding_bho_Tenant_id">
+          <End Role="tblTenant_ten" Type="Self.tblTenant_ten" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblBoekhouding_bho" Type="Self.tblBoekhouding_bho" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="tenId" />
+            </Principal>
+            <Dependent Role="tblBoekhouding_bho">
+              <PropertyRef Name="bhoTenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblBoekhouding_id">
+          <End Role="tblBoekhouding_bho" Type="Self.tblBoekhouding_bho" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblRelatie_rel" Type="Self.tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBoekhouding_bho">
+              <PropertyRef Name="bhoId" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="rel_bhoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblBTW_id">
+          <End Role="tblBTW_btw" Type="Self.tblBTW_btw" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblRelatie_rel" Type="Self.tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBTW_btw">
+              <PropertyRef Name="btwId" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="rel_btwId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblLand_id">
+          <End Role="tblLand_lan" Type="Self.tblLand_lan" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblRelatie_rel" Type="Self.tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLand_lan">
+              <PropertyRef Name="lanId" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="rel_lanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblRelatieType_id">
+          <End Role="tblRelatieType_rty" Type="Self.tblRelatieType_rty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tblRelatie_rel" Type="Self.tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRelatieType_rty">
+              <PropertyRef Name="rtyId" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="rel_rtyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblTenant_id">
+          <End Role="tblTenant_ten" Type="Self.tblTenant_ten" Multiplicity="1" />
+          <End Role="tblRelatie_rel" Type="Self.tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="tenId" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="rel_tenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBoekhouding_bho" EntityType="Self.tblBoekhouding_bho" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBTW_btw" EntityType="Self.tblBTW_btw" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLand_lan" EntityType="Self.tblLand_lan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRelatie_rel" EntityType="Self.tblRelatie_rel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRelatieType_rty" EntityType="Self.tblRelatieType_rty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTenant_ten" EntityType="Self.tblTenant_ten" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblBoekhouding_bho_Tenant_id" Association="Self.FK_tblBoekhouding_bho_Tenant_id">
+            <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
+            <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblBoekhouding_id" Association="Self.FK_tblRelatie_tblBoekhouding_id">
+            <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
+            <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblBTW_id" Association="Self.FK_tblRelatie_tblBTW_id">
+            <End Role="tblBTW_btw" EntitySet="tblBTW_btw" />
+            <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblLand_id" Association="Self.FK_tblRelatie_tblLand_id">
+            <End Role="tblLand_lan" EntitySet="tblLand_lan" />
+            <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblRelatieType_id" Association="Self.FK_tblRelatie_tblRelatieType_id">
+            <End Role="tblRelatieType_rty" EntitySet="tblRelatieType_rty" />
+            <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblTenant_id" Association="Self.FK_tblRelatie_tblTenant_id">
+            <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
+            <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="TenantId" Type="Guid" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Boekhoudingen" EntityType="Model.Boekhouding" />
+          <EntitySet Name="BTWTypes" EntityType="Model.BTWType" />
+          <EntitySet Name="Landen" EntityType="Model.Land" />
+          <EntitySet Name="Relaties" EntityType="Model.Relatie" />
+          <EntitySet Name="RelatieTypes" EntityType="Model.RelatieType" />
+          <AssociationSet Name="FK_tblRelatie_tblBoekhouding_id" Association="Model.FK_tblRelatie_tblBoekhouding_id">
+            <End Role="Boekhouding" EntitySet="Boekhoudingen" />
+            <End Role="tblRelatie_rel" EntitySet="Relaties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblBTW_id" Association="Model.FK_tblRelatie_tblBTW_id">
+            <End Role="tblBTW_btw" EntitySet="BTWTypes" />
+            <End Role="tblRelatie_rel" EntitySet="Relaties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblLand_id" Association="Model.FK_tblRelatie_tblLand_id">
+            <End Role="tblLand_lan" EntitySet="Landen" />
+            <End Role="tblRelatie_rel" EntitySet="Relaties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblRelatieType_id" Association="Model.FK_tblRelatie_tblRelatieType_id">
+            <End Role="tblRelatieType_rty" EntitySet="RelatieTypes" />
+            <End Role="tblRelatie_rel" EntitySet="Relaties" />
+          </AssociationSet>
+          <EntitySet Name="Tenants" EntityType="Model.Tenant" />
+          <AssociationSet Name="FK_tblBoekhouding_bho_Tenant_id" Association="Model.FK_tblBoekhouding_bho_Tenant_id">
+            <End Role="tblTenant_ten" EntitySet="Tenants" />
+            <End Role="Boekhouding" EntitySet="Boekhoudingen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRelatie_tblTenant_id" Association="Model.FK_tblRelatie_tblTenant_id">
+            <End Role="Tenant" EntitySet="Tenants" />
+            <End Role="Relatie" EntitySet="Relaties" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Boekhouding">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblBoekhouding_id" FromRole="Boekhouding" ToRole="tblRelatie_rel" />
+          <Property Name="TenantId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Tenant" Relationship="Model.FK_tblBoekhouding_bho_Tenant_id" FromRole="Boekhouding" ToRole="tblTenant_ten" />
+        </EntityType>
+        <EntityType Name="BTWType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Naam" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Percentage" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblBTW_id" FromRole="tblBTW_btw" ToRole="tblRelatie_rel" />
+        </EntityType>
+        <EntityType Name="Land">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Naam" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblLand_id" FromRole="tblLand_lan" ToRole="tblRelatie_rel" />
+        </EntityType>
+        <EntityType Name="Relatie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="BoekhoudingId" Type="Guid" Nullable="false" />
+          <Property Name="RelatieTypeId" Type="Int64" Nullable="false" />
+          <Property Name="Naam1" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Naam2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Contactpersoon" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Aanhef" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Adres1" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Adres2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Postcode" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LandId" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="LandNaam" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Plaats" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BTWNr" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Telefoon" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IBAN" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BTWId" Type="Int32" />
+          <Property Name="Kenmerk" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Boekhouding" Relationship="Model.FK_tblRelatie_tblBoekhouding_id" FromRole="tblRelatie_rel" ToRole="Boekhouding" />
+          <NavigationProperty Name="BTW" Relationship="Model.FK_tblRelatie_tblBTW_id" FromRole="tblRelatie_rel" ToRole="tblBTW_btw" />
+          <NavigationProperty Name="Land" Relationship="Model.FK_tblRelatie_tblLand_id" FromRole="tblRelatie_rel" ToRole="tblLand_lan" />
+          <NavigationProperty Name="RelatieType" Relationship="Model.FK_tblRelatie_tblRelatieType_id" FromRole="tblRelatie_rel" ToRole="tblRelatieType_rty" />
+          <Property Name="TenantId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Tenant" Relationship="Model.FK_tblRelatie_tblTenant_id" FromRole="Relatie" ToRole="Tenant" />
+        </EntityType>
+        <EntityType Name="RelatieType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Naam" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsCrediteur" Type="Boolean" Nullable="false" />
+          <Property Name="IsDebiteur" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblRelatieType_id" FromRole="tblRelatieType_rty" ToRole="tblRelatie_rel" />
+        </EntityType>
+        <Association Name="FK_tblRelatie_tblBoekhouding_id">
+          <End Type="Model.Boekhouding" Role="Boekhouding" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Relatie" Role="tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boekhouding">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="BoekhoudingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblBTW_id">
+          <End Type="Model.BTWType" Role="tblBTW_btw" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Relatie" Role="tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBTW_btw">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="BTWId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblLand_id">
+          <End Type="Model.Land" Role="tblLand_lan" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Relatie" Role="tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLand_lan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="LandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblRelatieType_id">
+          <End Type="Model.RelatieType" Role="tblRelatieType_rty" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Relatie" Role="tblRelatie_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRelatieType_rty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRelatie_rel">
+              <PropertyRef Name="RelatieTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tenant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Boekhoudingen" Relationship="Model.FK_tblBoekhouding_bho_Tenant_id" FromRole="tblTenant_ten" ToRole="Boekhouding" />
+          <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblTenant_id" FromRole="Tenant" ToRole="Relatie" />
+        </EntityType>
+        <Association Name="FK_tblBoekhouding_bho_Tenant_id">
+          <End Type="Model.Tenant" Role="tblTenant_ten" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Boekhouding" Role="Boekhouding" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Boekhouding">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblRelatie_tblTenant_id">
+          <End Type="Model.Tenant" Role="Tenant" Multiplicity="1" />
+          <End Type="Model.Relatie" Role="Relatie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Relatie">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Model.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Model.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="Model.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Boekhoudingen">
+            <EntityTypeMapping TypeName="Model.Boekhouding">
+              <MappingFragment StoreEntitySet="tblBoekhouding_bho">
+                <ScalarProperty Name="TenantId" ColumnName="bhoTenantId" />
+                <ScalarProperty Name="Name" ColumnName="bhoName" />
+                <ScalarProperty Name="Id" ColumnName="bhoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BTWTypes">
+            <EntityTypeMapping TypeName="Model.BTWType">
+              <MappingFragment StoreEntitySet="tblBTW_btw">
+                <ScalarProperty Name="Order" ColumnName="btwOrder" />
+                <ScalarProperty Name="Percentage" ColumnName="btwPercentage" />
+                <ScalarProperty Name="Naam" ColumnName="btwNaam" />
+                <ScalarProperty Name="Id" ColumnName="btwId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Landen">
+            <EntityTypeMapping TypeName="Model.Land">
+              <MappingFragment StoreEntitySet="tblLand_lan">
+                <ScalarProperty Name="Naam" ColumnName="lanName" />
+                <ScalarProperty Name="Id" ColumnName="lanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Relaties">
+            <EntityTypeMapping TypeName="Model.Relatie">
+              <MappingFragment StoreEntitySet="tblRelatie_rel">
+                <ScalarProperty Name="TenantId" ColumnName="rel_tenId" />
+                <ScalarProperty Name="Kenmerk" ColumnName="relKenmerk" />
+                <ScalarProperty Name="BTWId" ColumnName="rel_btwId" />
+                <ScalarProperty Name="IBAN" ColumnName="relIBAN" />
+                <ScalarProperty Name="Email" ColumnName="relEmail" />
+                <ScalarProperty Name="Telefoon" ColumnName="relTelefoon" />
+                <ScalarProperty Name="BTWNr" ColumnName="relBTWNr" />
+                <ScalarProperty Name="Plaats" ColumnName="relPlaats" />
+                <ScalarProperty Name="LandNaam" ColumnName="relLandnaam" />
+                <ScalarProperty Name="LandId" ColumnName="rel_lanId" />
+                <ScalarProperty Name="Postcode" ColumnName="relPostcode" />
+                <ScalarProperty Name="Adres2" ColumnName="relAdres2" />
+                <ScalarProperty Name="Adres1" ColumnName="relAdres1" />
+                <ScalarProperty Name="Aanhef" ColumnName="relAanhef" />
+                <ScalarProperty Name="Contactpersoon" ColumnName="relContactpersoon" />
+                <ScalarProperty Name="Naam2" ColumnName="relName2" />
+                <ScalarProperty Name="Naam1" ColumnName="relName1" />
+                <ScalarProperty Name="RelatieTypeId" ColumnName="rel_rtyId" />
+                <ScalarProperty Name="BoekhoudingId" ColumnName="rel_bhoId" />
+                <ScalarProperty Name="Id" ColumnName="relId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelatieTypes">
+            <EntityTypeMapping TypeName="Model.RelatieType">
+              <MappingFragment StoreEntitySet="tblRelatieType_rty">
+                <ScalarProperty Name="IsDebiteur" ColumnName="rtyIsLeverancier" />
+                <ScalarProperty Name="IsCrediteur" ColumnName="rtyIsCrediteur" />
+                <ScalarProperty Name="Naam" ColumnName="rtyNaam" />
+                <ScalarProperty Name="Id" ColumnName="rtyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tenants">
+            <EntityTypeMapping TypeName="Model.Tenant">
+              <MappingFragment StoreEntitySet="tblTenant_ten">
+                <ScalarProperty Name="CreationDate" ColumnName="tenCreationDate" />
+                <ScalarProperty Name="Id" ColumnName="tenId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
