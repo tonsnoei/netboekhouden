@@ -74,12 +74,81 @@
           <Property Name="btwPercentage" Type="decimal" Precision="18" Scale="2" />
           <Property Name="btwOrder" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblFactuur_fac">
+          <Key>
+            <PropertyRef Name="facId" />
+          </Key>
+          <Property Name="facId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fac_relId" Type="uniqueidentifier" />
+          <Property Name="facDatum" Type="datetime" />
+          <Property Name="facFactuurNummer" Type="nvarchar" MaxLength="128" />
+          <Property Name="fac_kplId" Type="uniqueidentifier" />
+          <Property Name="fac_rekId" Type="uniqueidentifier" />
+          <Property Name="facBetaald" Type="bit" />
+          <Property Name="facBetaalDatum" Type="datetime" />
+          <Property Name="facToelichting" Type="nvarchar" MaxLength="1024" />
+          <Property Name="fac_ftyId" Type="uniqueidentifier" />
+          <Property Name="fac_tenId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fac_bhoId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFactuurRegel_fre">
+          <Key>
+            <PropertyRef Name="freId" />
+          </Key>
+          <Property Name="freId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fre_facId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fre_tenId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fretProduct" Type="nvarchar" MaxLength="256" />
+          <Property Name="frePrijsExBtw" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="fre_btwId" Type="int" />
+          <Property Name="freAantal" Type="bigint" />
+          <Property Name="fre_psoId" Type="int" />
+          <Property Name="freMargeInkoop" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="tblFactuurType_fty">
+          <Key>
+            <PropertyRef Name="ftyId" />
+          </Key>
+          <Property Name="ftyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ftyNaam" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ftyDescription" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblKostenplaats_kpl">
+          <Key>
+            <PropertyRef Name="kplId" />
+          </Key>
+          <Property Name="kplId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="kplNaam" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="kplVolgnummer" Type="int" Nullable="false" />
+          <Property Name="kplActief" Type="bit" Nullable="false" />
+          <Property Name="kpl_bhoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="kpl_tenId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblLand_lan">
           <Key>
             <PropertyRef Name="lanId" />
           </Key>
           <Property Name="lanId" Type="nvarchar" MaxLength="2" Nullable="false" />
           <Property Name="lanName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProductSoort_pso">
+          <Key>
+            <PropertyRef Name="psoId" />
+          </Key>
+          <Property Name="psoId" Type="int" Nullable="false" />
+          <Property Name="psoNaam" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRekening_rek">
+          <Key>
+            <PropertyRef Name="rekId" />
+          </Key>
+          <Property Name="rekId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rekRekeningnummer" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="rekToelichting" Type="nvarchar" MaxLength="128" />
+          <Property Name="rekVolgnummer" Type="int" />
+          <Property Name="rekActief" Type="bit" Nullable="false" />
+          <Property Name="rek_bhoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rek_tenId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="tblRelatie_rel">
           <Key>
@@ -192,6 +261,150 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tblfactuur_Boekhouding_id">
+          <End Role="tblBoekhouding_bho" Type="Self.tblBoekhouding_bho" Multiplicity="1" />
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBoekhouding_bho">
+              <PropertyRef Name="bhoId" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="fac_bhoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_FactuurType_id">
+          <End Role="tblFactuurType_fty" Type="Self.tblFactuurType_fty" Multiplicity="0..1" />
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFactuurType_fty">
+              <PropertyRef Name="ftyId" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="fac_ftyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Kostenplaats_id">
+          <End Role="tblKostenplaats_kpl" Type="Self.tblKostenplaats_kpl" Multiplicity="0..1" />
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblKostenplaats_kpl">
+              <PropertyRef Name="kplId" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="fac_kplId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Rekening_id">
+          <End Role="tblRekening_rek" Type="Self.tblRekening_rek" Multiplicity="0..1" />
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRekening_rek">
+              <PropertyRef Name="rekId" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="fac_rekId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Relatie_id">
+          <End Role="tblRelatie_rel" Type="Self.tblRelatie_rel" Multiplicity="0..1" />
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRelatie_rel">
+              <PropertyRef Name="relId" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="fac_relId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Tenant_id">
+          <End Role="tblTenant_ten" Type="Self.tblTenant_ten" Multiplicity="1" />
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="tenId" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="fac_tenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_BTW_id">
+          <End Role="tblBTW_btw" Type="Self.tblBTW_btw" Multiplicity="0..1" />
+          <End Role="tblFactuurRegel_fre" Type="Self.tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBTW_btw">
+              <PropertyRef Name="btwId" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="fre_btwId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_Factuur_id">
+          <End Role="tblFactuur_fac" Type="Self.tblFactuur_fac" Multiplicity="1" />
+          <End Role="tblFactuurRegel_fre" Type="Self.tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFactuur_fac">
+              <PropertyRef Name="facId" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="fre_facId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_productsoort_id">
+          <End Role="tblProductSoort_pso" Type="Self.tblProductSoort_pso" Multiplicity="0..1" />
+          <End Role="tblFactuurRegel_fre" Type="Self.tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductSoort_pso">
+              <PropertyRef Name="psoId" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="fre_psoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_Tenant_id">
+          <End Role="tblTenant_ten" Type="Self.tblTenant_ten" Multiplicity="1" />
+          <End Role="tblFactuurRegel_fre" Type="Self.tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="tenId" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="fre_tenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblKostenPlaats_id_tblBoekhouding_id">
+          <End Role="tblBoekhouding_bho" Type="Self.tblBoekhouding_bho" Multiplicity="1" />
+          <End Role="tblKostenplaats_kpl" Type="Self.tblKostenplaats_kpl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBoekhouding_bho">
+              <PropertyRef Name="bhoId" />
+            </Principal>
+            <Dependent Role="tblKostenplaats_kpl">
+              <PropertyRef Name="kpl_bhoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblKostenPlaats_id_Tenant_id">
+          <End Role="tblTenant_ten" Type="Self.tblTenant_ten" Multiplicity="1" />
+          <End Role="tblKostenplaats_kpl" Type="Self.tblKostenplaats_kpl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="tenId" />
+            </Principal>
+            <Dependent Role="tblKostenplaats_kpl">
+              <PropertyRef Name="kpl_tenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tblRelatie_tblBoekhouding_id">
           <End Role="tblBoekhouding_bho" Type="Self.tblBoekhouding_bho" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -260,6 +473,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK1_tblRekening_id_tblBoekhouding_id">
+          <End Role="tblBoekhouding_bho" Type="Self.tblBoekhouding_bho" Multiplicity="1" />
+          <End Role="tblRekening_rek" Type="Self.tblRekening_rek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBoekhouding_bho">
+              <PropertyRef Name="bhoId" />
+            </Principal>
+            <Dependent Role="tblRekening_rek">
+              <PropertyRef Name="rek_bhoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK1_tblRekening_id_Tenant_id">
+          <End Role="tblTenant_ten" Type="Self.tblTenant_ten" Multiplicity="1" />
+          <End Role="tblRekening_rek" Type="Self.tblRekening_rek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTenant_ten">
+              <PropertyRef Name="tenId" />
+            </Principal>
+            <Dependent Role="tblRekening_rek">
+              <PropertyRef Name="rek_tenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -268,7 +505,13 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBoekhouding_bho" EntityType="Self.tblBoekhouding_bho" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBTW_btw" EntityType="Self.tblBTW_btw" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFactuur_fac" EntityType="Self.tblFactuur_fac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFactuurRegel_fre" EntityType="Self.tblFactuurRegel_fre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFactuurType_fty" EntityType="Self.tblFactuurType_fty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKostenplaats_kpl" EntityType="Self.tblKostenplaats_kpl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLand_lan" EntityType="Self.tblLand_lan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductSoort_pso" EntityType="Self.tblProductSoort_pso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRekening_rek" EntityType="Self.tblRekening_rek" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRelatie_rel" EntityType="Self.tblRelatie_rel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRelatieType_rty" EntityType="Self.tblRelatieType_rty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTenant_ten" EntityType="Self.tblTenant_ten" Schema="dbo" store:Type="Tables" />
@@ -292,6 +535,54 @@
             <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
             <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
           </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Boekhouding_id" Association="Self.FK_tblfactuur_Boekhouding_id">
+            <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_FactuurType_id" Association="Self.FK_tblfactuur_FactuurType_id">
+            <End Role="tblFactuurType_fty" EntitySet="tblFactuurType_fty" />
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Kostenplaats_id" Association="Self.FK_tblfactuur_Kostenplaats_id">
+            <End Role="tblKostenplaats_kpl" EntitySet="tblKostenplaats_kpl" />
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Rekening_id" Association="Self.FK_tblfactuur_Rekening_id">
+            <End Role="tblRekening_rek" EntitySet="tblRekening_rek" />
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Relatie_id" Association="Self.FK_tblfactuur_Relatie_id">
+            <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Tenant_id" Association="Self.FK_tblfactuur_Tenant_id">
+            <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_BTW_id" Association="Self.FK_tblfactuurregel_BTW_id">
+            <End Role="tblBTW_btw" EntitySet="tblBTW_btw" />
+            <End Role="tblFactuurRegel_fre" EntitySet="tblFactuurRegel_fre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_Factuur_id" Association="Self.FK_tblfactuurregel_Factuur_id">
+            <End Role="tblFactuur_fac" EntitySet="tblFactuur_fac" />
+            <End Role="tblFactuurRegel_fre" EntitySet="tblFactuurRegel_fre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_productsoort_id" Association="Self.FK_tblfactuurregel_productsoort_id">
+            <End Role="tblProductSoort_pso" EntitySet="tblProductSoort_pso" />
+            <End Role="tblFactuurRegel_fre" EntitySet="tblFactuurRegel_fre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_Tenant_id" Association="Self.FK_tblfactuurregel_Tenant_id">
+            <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
+            <End Role="tblFactuurRegel_fre" EntitySet="tblFactuurRegel_fre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblKostenPlaats_id_tblBoekhouding_id" Association="Self.FK_tblKostenPlaats_id_tblBoekhouding_id">
+            <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
+            <End Role="tblKostenplaats_kpl" EntitySet="tblKostenplaats_kpl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblKostenPlaats_id_Tenant_id" Association="Self.FK_tblKostenPlaats_id_Tenant_id">
+            <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
+            <End Role="tblKostenplaats_kpl" EntitySet="tblKostenplaats_kpl" />
+          </AssociationSet>
           <AssociationSet Name="FK_tblRelatie_tblBoekhouding_id" Association="Self.FK_tblRelatie_tblBoekhouding_id">
             <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
             <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
@@ -311,6 +602,14 @@
           <AssociationSet Name="FK_tblRelatie_tblTenant_id" Association="Self.FK_tblRelatie_tblTenant_id">
             <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
             <End Role="tblRelatie_rel" EntitySet="tblRelatie_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK1_tblRekening_id_tblBoekhouding_id" Association="Self.FK1_tblRekening_id_tblBoekhouding_id">
+            <End Role="tblBoekhouding_bho" EntitySet="tblBoekhouding_bho" />
+            <End Role="tblRekening_rek" EntitySet="tblRekening_rek" />
+          </AssociationSet>
+          <AssociationSet Name="FK1_tblRekening_id_Tenant_id" Association="Self.FK1_tblRekening_id_Tenant_id">
+            <End Role="tblTenant_ten" EntitySet="tblTenant_ten" />
+            <End Role="tblRekening_rek" EntitySet="tblRekening_rek" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -446,6 +745,68 @@
             <End Role="Tenant" EntitySet="Tenants" />
             <End Role="Relatie" EntitySet="Relaties" />
           </AssociationSet>
+          <EntitySet Name="Facturen" EntityType="Model.Factuur" />
+          <EntitySet Name="Factuurregels" EntityType="Model.Factuurregel" />
+          <EntitySet Name="tblFactuurType_fty" EntityType="Model.FactuurType" />
+          <EntitySet Name="Kostenplaatsen" EntityType="Model.Kostenplaats" />
+          <EntitySet Name="Productsoorten" EntityType="Model.Productsoort" />
+          <EntitySet Name="Rekeningen" EntityType="Model.Rekening" />
+          <AssociationSet Name="FK_tblKostenPlaats_id_tblBoekhouding_id" Association="Model.FK_tblKostenPlaats_id_tblBoekhouding_id">
+            <End Role="Boekhouding" EntitySet="Boekhoudingen" />
+            <End Role="tblKostenplaats_kpl" EntitySet="Kostenplaatsen" />
+          </AssociationSet>
+          <AssociationSet Name="FK1_tblRekening_id_tblBoekhouding_id" Association="Model.FK1_tblRekening_id_tblBoekhouding_id">
+            <End Role="Boekhouding" EntitySet="Boekhoudingen" />
+            <End Role="tblRekening_rek" EntitySet="Rekeningen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_BTW_id" Association="Model.FK_tblfactuurregel_BTW_id">
+            <End Role="BTWType" EntitySet="BTWTypes" />
+            <End Role="tblFactuurRegel_fre" EntitySet="Factuurregels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_FactuurType_id" Association="Model.FK_tblfactuur_FactuurType_id">
+            <End Role="tblFactuurType_fty" EntitySet="tblFactuurType_fty" />
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Kostenplaats_id" Association="Model.FK_tblfactuur_Kostenplaats_id">
+            <End Role="tblKostenplaats_kpl" EntitySet="Kostenplaatsen" />
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Rekening_id" Association="Model.FK_tblfactuur_Rekening_id">
+            <End Role="tblRekening_rek" EntitySet="Rekeningen" />
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Relatie_id" Association="Model.FK_tblfactuur_Relatie_id">
+            <End Role="Relatie" EntitySet="Relaties" />
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Tenant_id" Association="Model.FK_tblfactuur_Tenant_id">
+            <End Role="Tenant" EntitySet="Tenants" />
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_Factuur_id" Association="Model.FK_tblfactuurregel_Factuur_id">
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+            <End Role="tblFactuurRegel_fre" EntitySet="Factuurregels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_productsoort_id" Association="Model.FK_tblfactuurregel_productsoort_id">
+            <End Role="tblProductSoort_pso" EntitySet="Productsoorten" />
+            <End Role="tblFactuurRegel_fre" EntitySet="Factuurregels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuurregel_Tenant_id" Association="Model.FK_tblfactuurregel_Tenant_id">
+            <End Role="Tenant" EntitySet="Tenants" />
+            <End Role="tblFactuurRegel_fre" EntitySet="Factuurregels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblKostenPlaats_id_Tenant_id" Association="Model.FK_tblKostenPlaats_id_Tenant_id">
+            <End Role="Tenant" EntitySet="Tenants" />
+            <End Role="tblKostenplaats_kpl" EntitySet="Kostenplaatsen" />
+          </AssociationSet>
+          <AssociationSet Name="FK1_tblRekening_id_Tenant_id" Association="Model.FK1_tblRekening_id_Tenant_id">
+            <End Role="Tenant" EntitySet="Tenants" />
+            <End Role="tblRekening_rek" EntitySet="Rekeningen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblfactuur_Boekhouding_id" Association="Model.FK_tblfactuur_Boekhouding_id">
+            <End Role="Boekhouding" EntitySet="Boekhoudingen" />
+            <End Role="tblFactuur_fac" EntitySet="Facturen" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Boekhouding">
           <Key>
@@ -456,6 +817,9 @@
           <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblBoekhouding_id" FromRole="Boekhouding" ToRole="tblRelatie_rel" />
           <Property Name="TenantId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Tenant" Relationship="Model.FK_tblBoekhouding_bho_Tenant_id" FromRole="Boekhouding" ToRole="tblTenant_ten" />
+          <NavigationProperty Name="Kostenplaatsen" Relationship="Model.FK_tblKostenPlaats_id_tblBoekhouding_id" FromRole="Boekhouding" ToRole="tblKostenplaats_kpl" />
+          <NavigationProperty Name="Rekeningen" Relationship="Model.FK1_tblRekening_id_tblBoekhouding_id" FromRole="Boekhouding" ToRole="tblRekening_rek" />
+          <NavigationProperty Name="tblFactuur_fac" Relationship="Model.FK_tblfactuur_Boekhouding_id" FromRole="Boekhouding" ToRole="tblFactuur_fac" />
         </EntityType>
         <EntityType Name="BTWType">
           <Key>
@@ -466,6 +830,7 @@
           <Property Name="Percentage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Order" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblBTW_id" FromRole="tblBTW_btw" ToRole="tblRelatie_rel" />
+          <NavigationProperty Name="tblFactuurRegel_fre" Relationship="Model.FK_tblfactuurregel_BTW_id" FromRole="BTWType" ToRole="tblFactuurRegel_fre" />
         </EntityType>
         <EntityType Name="Land">
           <Key>
@@ -504,6 +869,7 @@
           <NavigationProperty Name="RelatieType" Relationship="Model.FK_tblRelatie_tblRelatieType_id" FromRole="tblRelatie_rel" ToRole="tblRelatieType_rty" />
           <Property Name="TenantId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Tenant" Relationship="Model.FK_tblRelatie_tblTenant_id" FromRole="Relatie" ToRole="Tenant" />
+          <NavigationProperty Name="tblFactuur_fac" Relationship="Model.FK_tblfactuur_Relatie_id" FromRole="Relatie" ToRole="tblFactuur_fac" />
         </EntityType>
         <EntityType Name="RelatieType">
           <Key>
@@ -579,6 +945,10 @@
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Boekhoudingen" Relationship="Model.FK_tblBoekhouding_bho_Tenant_id" FromRole="tblTenant_ten" ToRole="Boekhouding" />
           <NavigationProperty Name="Relaties" Relationship="Model.FK_tblRelatie_tblTenant_id" FromRole="Tenant" ToRole="Relatie" />
+          <NavigationProperty Name="tblFactuur_fac" Relationship="Model.FK_tblfactuur_Tenant_id" FromRole="Tenant" ToRole="tblFactuur_fac" />
+          <NavigationProperty Name="tblFactuurRegel_fre" Relationship="Model.FK_tblfactuurregel_Tenant_id" FromRole="Tenant" ToRole="tblFactuurRegel_fre" />
+          <NavigationProperty Name="tblKostenplaats_kpl" Relationship="Model.FK_tblKostenPlaats_id_Tenant_id" FromRole="Tenant" ToRole="tblKostenplaats_kpl" />
+          <NavigationProperty Name="tblRekening_rek" Relationship="Model.FK1_tblRekening_id_Tenant_id" FromRole="Tenant" ToRole="tblRekening_rek" />
         </EntityType>
         <Association Name="FK_tblBoekhouding_bho_Tenant_id">
           <End Type="Model.Tenant" Role="tblTenant_ten" Multiplicity="1">
@@ -603,6 +973,262 @@
             </Principal>
             <Dependent Role="Relatie">
               <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Factuur">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="RelatieId" Type="Guid" />
+          <Property Name="Datum" Type="DateTime" Precision="3" />
+          <Property Name="FactuurNummer" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="KostenplaatsId" Type="Guid" />
+          <Property Name="RekeningId" Type="Guid" />
+          <Property Name="Betaald" Type="Boolean" />
+          <Property Name="BetaalDatum" Type="DateTime" Precision="3" />
+          <Property Name="Toelichting" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="FactuurTypeId" Type="Guid" />
+          <Property Name="TenantId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="FactuurType" Relationship="Model.FK_tblfactuur_FactuurType_id" FromRole="tblFactuur_fac" ToRole="tblFactuurType_fty" />
+          <NavigationProperty Name="Kostenplaats" Relationship="Model.FK_tblfactuur_Kostenplaats_id" FromRole="tblFactuur_fac" ToRole="tblKostenplaats_kpl" />
+          <NavigationProperty Name="Rekening" Relationship="Model.FK_tblfactuur_Rekening_id" FromRole="tblFactuur_fac" ToRole="tblRekening_rek" />
+          <NavigationProperty Name="Relatie" Relationship="Model.FK_tblfactuur_Relatie_id" FromRole="tblFactuur_fac" ToRole="Relatie" />
+          <NavigationProperty Name="Tenant" Relationship="Model.FK_tblfactuur_Tenant_id" FromRole="tblFactuur_fac" ToRole="Tenant" />
+          <NavigationProperty Name="FactuurRegels" Relationship="Model.FK_tblfactuurregel_Factuur_id" FromRole="tblFactuur_fac" ToRole="tblFactuurRegel_fre" />
+          <Property Name="BoekhoudingId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Boekhouding" Relationship="Model.FK_tblfactuur_Boekhouding_id" FromRole="tblFactuur_fac" ToRole="Boekhouding" />
+        </EntityType>
+        <EntityType Name="Factuurregel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FactuurId" Type="Guid" Nullable="false" />
+          <Property Name="TenantId" Type="Guid" Nullable="false" />
+          <Property Name="Product" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PrijsExBTW" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BTWId" Type="Int32" />
+          <Property Name="Aantal" Type="Int64" />
+          <Property Name="ProductSoortId" Type="Int32" />
+          <Property Name="MargeInkoop" Type="Decimal" Precision="18" Scale="4" />
+          <NavigationProperty Name="BTW" Relationship="Model.FK_tblfactuurregel_BTW_id" FromRole="tblFactuurRegel_fre" ToRole="BTWType" />
+          <NavigationProperty Name="Factuur" Relationship="Model.FK_tblfactuurregel_Factuur_id" FromRole="tblFactuurRegel_fre" ToRole="tblFactuur_fac" />
+          <NavigationProperty Name="ProductSoort" Relationship="Model.FK_tblfactuurregel_productsoort_id" FromRole="tblFactuurRegel_fre" ToRole="tblProductSoort_pso" />
+          <NavigationProperty Name="Tenant" Relationship="Model.FK_tblfactuurregel_Tenant_id" FromRole="tblFactuurRegel_fre" ToRole="Tenant" />
+        </EntityType>
+        <EntityType Name="FactuurType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Naam" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Omschrijving" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Facturen" Relationship="Model.FK_tblfactuur_FactuurType_id" FromRole="tblFactuurType_fty" ToRole="tblFactuur_fac" />
+        </EntityType>
+        <EntityType Name="Kostenplaats">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Naam" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Volgnummer" Type="Int32" Nullable="false" />
+          <Property Name="Actief" Type="Boolean" Nullable="false" />
+          <Property Name="BoekhoudingId" Type="Guid" Nullable="false" />
+          <Property Name="TenantId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Boekhouding" Relationship="Model.FK_tblKostenPlaats_id_tblBoekhouding_id" FromRole="tblKostenplaats_kpl" ToRole="Boekhouding" />
+          <NavigationProperty Name="Factuur" Relationship="Model.FK_tblfactuur_Kostenplaats_id" FromRole="tblKostenplaats_kpl" ToRole="tblFactuur_fac" />
+          <NavigationProperty Name="Tenant" Relationship="Model.FK_tblKostenPlaats_id_Tenant_id" FromRole="tblKostenplaats_kpl" ToRole="Tenant" />
+        </EntityType>
+        <EntityType Name="Productsoort">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Naam" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Factuurregels" Relationship="Model.FK_tblfactuurregel_productsoort_id" FromRole="tblProductSoort_pso" ToRole="tblFactuurRegel_fre" />
+        </EntityType>
+        <EntityType Name="Rekening">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Rekeningnummer" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Toelichting" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Volgnummer" Type="Int32" />
+          <Property Name="Actief" Type="Boolean" Nullable="false" />
+          <Property Name="BoekhoudingId" Type="Guid" Nullable="false" />
+          <Property Name="TenantId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Boekhouding" Relationship="Model.FK1_tblRekening_id_tblBoekhouding_id" FromRole="tblRekening_rek" ToRole="Boekhouding" />
+          <NavigationProperty Name="Factuur" Relationship="Model.FK_tblfactuur_Rekening_id" FromRole="tblRekening_rek" ToRole="tblFactuur_fac" />
+          <NavigationProperty Name="Tenant" Relationship="Model.FK1_tblRekening_id_Tenant_id" FromRole="tblRekening_rek" ToRole="Tenant" />
+        </EntityType>
+        <Association Name="FK_tblKostenPlaats_id_tblBoekhouding_id">
+          <End Type="Model.Boekhouding" Role="Boekhouding" Multiplicity="1" />
+          <End Type="Model.Kostenplaats" Role="tblKostenplaats_kpl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boekhouding">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblKostenplaats_kpl">
+              <PropertyRef Name="BoekhoudingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK1_tblRekening_id_tblBoekhouding_id">
+          <End Type="Model.Boekhouding" Role="Boekhouding" Multiplicity="1" />
+          <End Type="Model.Rekening" Role="tblRekening_rek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boekhouding">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRekening_rek">
+              <PropertyRef Name="BoekhoudingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_BTW_id">
+          <End Type="Model.BTWType" Role="BTWType" Multiplicity="0..1" />
+          <End Type="Model.Factuurregel" Role="tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BTWType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="BTWId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_FactuurType_id">
+          <End Type="Model.FactuurType" Role="tblFactuurType_fty" Multiplicity="0..1" />
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFactuurType_fty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="FactuurTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Kostenplaats_id">
+          <End Type="Model.Kostenplaats" Role="tblKostenplaats_kpl" Multiplicity="0..1" />
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblKostenplaats_kpl">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="KostenplaatsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Rekening_id">
+          <End Type="Model.Rekening" Role="tblRekening_rek" Multiplicity="0..1" />
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRekening_rek">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="RekeningId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Relatie_id">
+          <End Type="Model.Relatie" Role="Relatie" Multiplicity="0..1" />
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Relatie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="RelatieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Tenant_id">
+          <End Type="Model.Tenant" Role="Tenant" Multiplicity="1" />
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_Factuur_id">
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="1" />
+          <End Type="Model.Factuurregel" Role="tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFactuur_fac">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="FactuurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_productsoort_id">
+          <End Type="Model.Productsoort" Role="tblProductSoort_pso" Multiplicity="0..1" />
+          <End Type="Model.Factuurregel" Role="tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProductSoort_pso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="ProductSoortId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuurregel_Tenant_id">
+          <End Type="Model.Tenant" Role="Tenant" Multiplicity="1" />
+          <End Type="Model.Factuurregel" Role="tblFactuurRegel_fre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuurRegel_fre">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblKostenPlaats_id_Tenant_id">
+          <End Type="Model.Tenant" Role="Tenant" Multiplicity="1" />
+          <End Type="Model.Kostenplaats" Role="tblKostenplaats_kpl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblKostenplaats_kpl">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK1_tblRekening_id_Tenant_id">
+          <End Type="Model.Tenant" Role="Tenant" Multiplicity="1" />
+          <End Type="Model.Rekening" Role="tblRekening_rek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblRekening_rek">
+              <PropertyRef Name="TenantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblfactuur_Boekhouding_id">
+          <End Type="Model.Boekhouding" Role="Boekhouding" Multiplicity="1" />
+          <End Type="Model.Factuur" Role="tblFactuur_fac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boekhouding">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblFactuur_fac">
+              <PropertyRef Name="BoekhoudingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -734,6 +1360,81 @@
               <MappingFragment StoreEntitySet="tblTenant_ten">
                 <ScalarProperty Name="CreationDate" ColumnName="tenCreationDate" />
                 <ScalarProperty Name="Id" ColumnName="tenId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturen">
+            <EntityTypeMapping TypeName="Model.Factuur">
+              <MappingFragment StoreEntitySet="tblFactuur_fac">
+                <ScalarProperty Name="BoekhoudingId" ColumnName="fac_bhoId" />
+                <ScalarProperty Name="TenantId" ColumnName="fac_tenId" />
+                <ScalarProperty Name="FactuurTypeId" ColumnName="fac_ftyId" />
+                <ScalarProperty Name="Toelichting" ColumnName="facToelichting" />
+                <ScalarProperty Name="BetaalDatum" ColumnName="facBetaalDatum" />
+                <ScalarProperty Name="Betaald" ColumnName="facBetaald" />
+                <ScalarProperty Name="RekeningId" ColumnName="fac_rekId" />
+                <ScalarProperty Name="KostenplaatsId" ColumnName="fac_kplId" />
+                <ScalarProperty Name="FactuurNummer" ColumnName="facFactuurNummer" />
+                <ScalarProperty Name="Datum" ColumnName="facDatum" />
+                <ScalarProperty Name="RelatieId" ColumnName="fac_relId" />
+                <ScalarProperty Name="Id" ColumnName="facId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factuurregels">
+            <EntityTypeMapping TypeName="Model.Factuurregel">
+              <MappingFragment StoreEntitySet="tblFactuurRegel_fre">
+                <ScalarProperty Name="MargeInkoop" ColumnName="freMargeInkoop" />
+                <ScalarProperty Name="ProductSoortId" ColumnName="fre_psoId" />
+                <ScalarProperty Name="Aantal" ColumnName="freAantal" />
+                <ScalarProperty Name="BTWId" ColumnName="fre_btwId" />
+                <ScalarProperty Name="PrijsExBTW" ColumnName="frePrijsExBtw" />
+                <ScalarProperty Name="Product" ColumnName="fretProduct" />
+                <ScalarProperty Name="TenantId" ColumnName="fre_tenId" />
+                <ScalarProperty Name="FactuurId" ColumnName="fre_facId" />
+                <ScalarProperty Name="Id" ColumnName="freId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFactuurType_fty">
+            <EntityTypeMapping TypeName="Model.FactuurType">
+              <MappingFragment StoreEntitySet="tblFactuurType_fty">
+                <ScalarProperty Name="Omschrijving" ColumnName="ftyDescription" />
+                <ScalarProperty Name="Naam" ColumnName="ftyNaam" />
+                <ScalarProperty Name="Id" ColumnName="ftyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kostenplaatsen">
+            <EntityTypeMapping TypeName="Model.Kostenplaats">
+              <MappingFragment StoreEntitySet="tblKostenplaats_kpl">
+                <ScalarProperty Name="TenantId" ColumnName="kpl_tenId" />
+                <ScalarProperty Name="BoekhoudingId" ColumnName="kpl_bhoId" />
+                <ScalarProperty Name="Actief" ColumnName="kplActief" />
+                <ScalarProperty Name="Volgnummer" ColumnName="kplVolgnummer" />
+                <ScalarProperty Name="Naam" ColumnName="kplNaam" />
+                <ScalarProperty Name="Id" ColumnName="kplId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productsoorten">
+            <EntityTypeMapping TypeName="Model.Productsoort">
+              <MappingFragment StoreEntitySet="tblProductSoort_pso">
+                <ScalarProperty Name="Naam" ColumnName="psoNaam" />
+                <ScalarProperty Name="Id" ColumnName="psoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rekeningen">
+            <EntityTypeMapping TypeName="Model.Rekening">
+              <MappingFragment StoreEntitySet="tblRekening_rek">
+                <ScalarProperty Name="TenantId" ColumnName="rek_tenId" />
+                <ScalarProperty Name="BoekhoudingId" ColumnName="rek_bhoId" />
+                <ScalarProperty Name="Actief" ColumnName="rekActief" />
+                <ScalarProperty Name="Volgnummer" ColumnName="rekVolgnummer" />
+                <ScalarProperty Name="Toelichting" ColumnName="rekToelichting" />
+                <ScalarProperty Name="Rekeningnummer" ColumnName="rekRekeningnummer" />
+                <ScalarProperty Name="Id" ColumnName="rekId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

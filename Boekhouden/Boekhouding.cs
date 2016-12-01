@@ -18,6 +18,9 @@ namespace Boekhouden
         public Boekhouding()
         {
             this.Relaties = new HashSet<Relatie>();
+            this.Kostenplaatsen = new HashSet<Kostenplaats>();
+            this.Rekeningen = new HashSet<Rekening>();
+            this.tblFactuur_fac = new HashSet<Factuur>();
         }
     
         public System.Guid Id { get; set; }
@@ -27,5 +30,11 @@ namespace Boekhouden
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Relatie> Relaties { get; set; }
         public virtual Tenant Tenant { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Kostenplaats> Kostenplaatsen { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rekening> Rekeningen { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Factuur> tblFactuur_fac { get; set; }
     }
 }

@@ -19,6 +19,10 @@ namespace Boekhouden
         {
             this.Boekhoudingen = new HashSet<Boekhouding>();
             this.Relaties = new HashSet<Relatie>();
+            this.tblFactuur_fac = new HashSet<Factuur>();
+            this.tblFactuurRegel_fre = new HashSet<Factuurregel>();
+            this.tblKostenplaats_kpl = new HashSet<Kostenplaats>();
+            this.tblRekening_rek = new HashSet<Rekening>();
         }
     
         public System.Guid Id { get; set; }
@@ -28,5 +32,13 @@ namespace Boekhouden
         public virtual ICollection<Boekhouding> Boekhoudingen { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Relatie> Relaties { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Factuur> tblFactuur_fac { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Factuurregel> tblFactuurRegel_fre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Kostenplaats> tblKostenplaats_kpl { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rekening> tblRekening_rek { get; set; }
     }
 }

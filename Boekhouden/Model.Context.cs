@@ -35,5 +35,11 @@ namespace Boekhouden
         public virtual DbSet<Relatie> Relaties { get; set; }
         public virtual DbSet<RelatieType> RelatieTypes { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
+        public virtual DbSet<Factuur> Facturen { get; set; }
+        public virtual DbSet<Factuurregel> Factuurregels { get; set; }
+        public virtual DbSet<FactuurType> tblFactuurType_fty { get; set; }
+        public virtual DbSet<Kostenplaats> Kostenplaatsen { get; set; }
+        public virtual DbSet<Productsoort> Productsoorten { get; set; }
+        public virtual DbSet<Rekening> Rekeningen { get; set; }
     }
 }

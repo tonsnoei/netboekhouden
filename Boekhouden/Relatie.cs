@@ -14,6 +14,12 @@ namespace Boekhouden
     
     public partial class Relatie
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Relatie()
+        {
+            this.tblFactuur_fac = new HashSet<Factuur>();
+        }
+    
         public System.Guid Id { get; set; }
         public System.Guid BoekhoudingId { get; set; }
         public long RelatieTypeId { get; set; }
@@ -40,5 +46,7 @@ namespace Boekhouden
         public virtual Land Land { get; set; }
         public virtual RelatieType RelatieType { get; set; }
         public virtual Tenant Tenant { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Factuur> tblFactuur_fac { get; set; }
     }
 }

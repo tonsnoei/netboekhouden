@@ -12,23 +12,19 @@ namespace Boekhouden
     using System;
     using System.Collections.Generic;
     
-    public partial class BTWType
+    public partial class FactuurType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BTWType()
+        public FactuurType()
         {
-            this.Relaties = new HashSet<Relatie>();
-            this.tblFactuurRegel_fre = new HashSet<Factuurregel>();
+            this.Facturen = new HashSet<Factuur>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
         public string Naam { get; set; }
-        public Nullable<decimal> Percentage { get; set; }
-        public int Order { get; set; }
+        public string Omschrijving { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Relatie> Relaties { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Factuurregel> tblFactuurRegel_fre { get; set; }
+        public virtual ICollection<Factuur> Facturen { get; set; }
     }
 }
