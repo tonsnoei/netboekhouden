@@ -256,9 +256,10 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetUsers.cs" />
-    <Compile Include="Models\BoekhoudingModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\PartialClasses.cs" />
     <Compile Include="Models\Tenant.cs" />
     <Compile Include="Productsoort.cs">
       <DependentUpon>Model.tt</DependentUpon>
